@@ -1,0 +1,45 @@
+import axios, { type InternalAxiosRequestConfig } from "axios";
+import { useAuthStore } from "../store/auth";
+import { useToast } from "primevue/usetoast";
+
+export interface RequestConfig<RequestData = any>
+  extends InternalAxiosRequestConfig<RequestData> {
+  needToken?: boolean;
+  needLoading?: boolean;
+  needMessage?: boolean;
+}
+
+const service = axios.create({
+  baseURL: import.meta.env.VITE_BASE_API_URL,
+  timeout: 1000 * 20, // 20 seconds
+});
+
+service.interceptors.request.use((config: RequestConfig) => {
+  if (config.needToken !== false && !config.headers?.Authorization) {
+    const authStore = useAuthStore();
+    if (authStore.token) {
+      config.headers.Authorization = `Bearer ${authStore.token}`;
+    }
+  }
+  return config;
+});
+
+service.interceptors.response.use((response: any) => {
+  const data = response.data;
+  if (data.code === 200) {
+    return data.data;
+  }
+  const config = response.config as RequestConfig;
+  if (config.needMessage) {
+    const toast = useToast();
+    toast.add({
+      severity: "error",
+      summary: "Error",
+      detail: data.message,
+      life: 3000,
+    });
+  }
+  return Promise.reject(data);
+});
+
+export default service;

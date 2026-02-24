@@ -1,6 +1,5 @@
 import axios, { type InternalAxiosRequestConfig } from "axios";
 import { useAuthStore } from "../store/auth";
-import { useToast } from "primevue/usetoast";
 
 export interface RequestConfig<RequestData = any>
   extends InternalAxiosRequestConfig<RequestData> {
@@ -24,22 +23,17 @@ service.interceptors.request.use((config: RequestConfig) => {
   return config;
 });
 
-service.interceptors.response.use((response: any) => {
-  const data = response.data;
-  if (data.code === 200) {
-    return data.data;
+service.interceptors.response.use(
+  (response: any) => {
+    const data = response.data;
+    if (data.code === 200) {
+      return data.data;
+    }
+    return Promise.reject(data);
+  },
+  (error) => {
+    return Promise.reject(error);
   }
-  const config = response.config as RequestConfig;
-  if (config.needMessage) {
-    const toast = useToast();
-    toast.add({
-      severity: "error",
-      summary: "Error",
-      detail: data.message,
-      life: 3000,
-    });
-  }
-  return Promise.reject(data);
-});
+);
 
 export default service;

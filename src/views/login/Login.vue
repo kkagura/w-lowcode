@@ -36,16 +36,24 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive } from 'vue'
+import { reactive } from "vue";
+import { login } from "./api/api";
 
 const form = reactive({
-  account: '',
-  password: '',
-})
+  account: "",
+  password: "",
+});
 
 function handleLogin() {
-  console.log('账号:', form.account)
-  console.log('密码:', form.password)
+  if (!form.account || !form.password) {
+    return;
+  }
+  login({
+    username: form.account,
+    password: form.password,
+  }).then((res) => {
+    console.log(res);
+  });
 }
 </script>
 

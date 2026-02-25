@@ -26,10 +26,7 @@ service.interceptors.request.use((config: RequestConfig) => {
 service.interceptors.response.use(
   (response: any) => {
     const data = response.data;
-    if (data.code === 200) {
-      return data.data;
-    }
-    return Promise.reject(data);
+    return data;
   },
   (error) => {
     return Promise.reject(error);

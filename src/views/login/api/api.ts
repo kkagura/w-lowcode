@@ -5,8 +5,12 @@ export interface LoginRequest {
   password: string;
 }
 
+export interface LoginResponse {
+  access_token: string;
+}
+
 export const login = (data: LoginRequest) => {
-  return request({
+  return request<LoginResponse, LoginRequest>({
     url: "/auth/signIn",
     method: "POST",
     data,

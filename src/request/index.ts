@@ -4,7 +4,7 @@ import service, { type RequestConfig } from "./instance";
 export function request<ResponseData = any, RequestData = any>(
   config: Partial<RequestConfig<RequestData>>
 ) {
-  return service.request<ResponseData, RequestData>(config).catch((err) => {
+  return service.request<RequestData, ResponseData>(config).catch((err) => {
     if (config && config.needMessage !== false) {
       const message = err.response?.data?.message || err.message || '系统错误';
       toast({

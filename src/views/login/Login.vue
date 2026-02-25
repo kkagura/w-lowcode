@@ -38,6 +38,12 @@
 <script lang="ts" setup>
 import { reactive } from "vue";
 import { login } from "./api/api";
+import { useAuthStore } from "@/store/auth";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
+
+const authStore = useAuthStore();
 
 const form = reactive({
   account: "",
@@ -52,7 +58,8 @@ function handleLogin() {
     username: form.account,
     password: form.password,
   }).then((res) => {
-    console.log(res);
+    authStore.setToken(res.access_token);
+    router.push({ name: "Demo" });
   });
 }
 </script>

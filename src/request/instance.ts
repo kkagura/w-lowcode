@@ -9,7 +9,7 @@ export interface RequestConfig<RequestData = any>
 }
 
 const service = axios.create({
-  baseURL: import.meta.env.VITE_BASE_API_URL,
+  baseURL: import.meta.env.VITE_API_BASE_URL,
   timeout: 1000 * 20, // 20 seconds
 });
 

@@ -7,7 +7,7 @@ export interface LoginRequest {
 
 export const login = (data: LoginRequest) => {
   return request({
-    url: "/login",
+    url: "/auth/signIn",
     method: "POST",
     data,
     needToken: false,

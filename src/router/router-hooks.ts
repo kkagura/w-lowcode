@@ -1,7 +1,5 @@
-import type { Router } from "vue-router";
+import type { RouteMeta, Router } from "vue-router";
 import { useAuthStore } from "../store/auth";
-
-const whiteList: string[] = [];
 
 export const checkAuth = (router: Router) => {
   router.beforeEach((to, _, next) => {
@@ -10,8 +8,8 @@ export const checkAuth = (router: Router) => {
       next();
       return;
     }
-    const name = to.name as string;
-    if (whiteList.includes(name)) {
+    const meta = to.meta as RouteMeta;
+    if (meta.requiresAuth === false) {
       next();
     } else {
       next({ name: "Login" });

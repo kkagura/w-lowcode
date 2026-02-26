@@ -17,3 +17,14 @@ export const login = (data: LoginRequest) => {
     needToken: false,
   });
 };
+
+export interface UserInfoResponse {
+  username: string;
+  nickname: string;
+}
+export const getUserInfo = () => {
+  return request<UserInfoResponse, void>({
+    url: "/auth/getInfo",
+    method: "GET",
+  });
+};

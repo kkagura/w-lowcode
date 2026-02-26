@@ -37,7 +37,7 @@
 
 <script lang="ts" setup>
 import { reactive } from "vue";
-import { login } from "./api/api";
+import { login } from "@/api";
 import { useAuthStore } from "@/store/auth";
 import { useRouter } from "vue-router";
 

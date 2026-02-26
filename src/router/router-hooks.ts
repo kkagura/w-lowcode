@@ -2,9 +2,12 @@ import type { RouteMeta, Router } from "vue-router";
 import { useAuthStore } from "../store/auth";
 
 export const checkAuth = (router: Router) => {
-  router.beforeEach((to, _, next) => {
+  router.beforeEach(async (to, _, next) => {
     const authStore = useAuthStore();
-    if (authStore.isAuthenticated) {
+    if (authStore.token) {
+      if (!authStore.isAuthenticated) {
+        await authStore.getUserInfo();
+      }
       next();
       return;
     }

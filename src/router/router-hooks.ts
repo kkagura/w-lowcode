@@ -3,15 +3,17 @@ import { useAuthStore } from "../store/auth";
 
 export const checkAuth = (router: Router) => {
   router.beforeEach(async (to, _, next) => {
+    const meta = to.meta as RouteMeta;
     const authStore = useAuthStore();
     if (authStore.token) {
       if (!authStore.isAuthenticated) {
-        await authStore.getUserInfo();
+        if (meta.requiresAuth !== false) {
+          await authStore.getUserInfo();
+        }
       }
       next();
       return;
     }
-    const meta = to.meta as RouteMeta;
     if (meta.requiresAuth === false) {
       next();
     } else {

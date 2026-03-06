@@ -30,12 +30,6 @@ export const routes: RouteRecordRaw[] = [
         component: () => import("@/views/error/Error.vue"),
         meta: { title: "错误页", requiresAuth: false },
       },
-      {
-        path: "ui-examples",
-        name: "UIExamples",
-        component: () => import("@/views/examples/UIExamples.vue"),
-        meta: { title: "UI 示例", requiresAuth: false },
-      },
     ],
   },
   {

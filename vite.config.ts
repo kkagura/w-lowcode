@@ -1,7 +1,8 @@
 import { defineConfig, loadEnv } from "vite";
 import vue from "@vitejs/plugin-vue";
+import AutoImport from "unplugin-auto-import/vite";
 import Components from "unplugin-vue-components/vite";
-import { PrimeVueResolver } from "@primevue/auto-import-resolver";
+import { ElementPlusResolver } from "unplugin-vue-components/resolvers";
 import path from "path";
 
 // https://vite.dev/config/
@@ -11,7 +12,10 @@ export default defineConfig(({ mode }) => {
     plugins: [
       vue(),
       Components({
-        resolvers: [PrimeVueResolver()],
+        resolvers: [ElementPlusResolver()],
+      }),
+      AutoImport({
+        resolvers: [ElementPlusResolver()],
       }),
     ],
     resolve: {
